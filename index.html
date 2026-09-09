@@ -1,0 +1,1441 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Law School Acceptance Calculator: Estimate Your Admission Chances</title>
+  <meta name="description" content="Use a law school acceptance calculator to compare your LSAT and GPA, understand reach and target schools, and build a smarter law school application list.">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://lsatscorecalculator.com/">
+
+  <style>
+    :root {
+      --navy: #10233f;
+      --navy-2: #18385d;
+      --blue: #2867c7;
+      --blue-soft: #eef5ff;
+      --cream: #f8f6f1;
+      --white: #ffffff;
+      --text: #243247;
+      --muted: #667085;
+      --border: #e3e7ed;
+      --green: #198754;
+      --green-soft: #eaf8f1;
+      --gold: #b7791f;
+      --gold-soft: #fff7e5;
+      --red: #c24141;
+      --red-soft: #fff0f0;
+      --shadow: 0 18px 55px rgba(16, 35, 63, 0.10);
+      --radius: 22px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.75;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      width: min(1160px, calc(100% - 40px));
+      margin: auto;
+    }
+
+    /* Header */
+    .site-header {
+      background: rgba(255,255,255,.96);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+
+    .header-inner {
+      min-height: 72px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 11px;
+      font-weight: 800;
+      color: var(--navy);
+      letter-spacing: -.02em;
+    }
+
+    .brand-mark {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      background: var(--navy);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 19px;
+    }
+
+    .header-link {
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--blue);
+      padding: 10px 16px;
+      border: 1px solid #cbdcf5;
+      border-radius: 999px;
+      background: var(--blue-soft);
+    }
+
+    /* Hero */
+    .hero {
+      padding: 76px 0 52px;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(40,103,199,.10), transparent 32%),
+        linear-gradient(180deg, #fff 0%, #f8f6f1 100%);
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.05fr .95fr;
+      gap: 54px;
+      align-items: center;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--blue);
+      background: var(--blue-soft);
+      border: 1px solid #d6e5fb;
+      padding: 7px 12px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 18px;
+    }
+
+    h1 {
+      color: var(--navy);
+      font-size: clamp(38px, 5vw, 62px);
+      line-height: 1.06;
+      letter-spacing: -.045em;
+      max-width: 720px;
+      margin-bottom: 22px;
+    }
+
+    .hero-copy {
+      font-size: 18px;
+      color: #536174;
+      max-width: 680px;
+    }
+
+    .hero-copy strong {
+      color: var(--navy);
+    }
+
+    /* Calculator */
+    .calculator {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: 28px;
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .calculator-head {
+      background: var(--navy);
+      color: white;
+      padding: 25px 27px;
+    }
+
+    .calculator-head h2 {
+      font-size: 23px;
+      line-height: 1.25;
+      margin-bottom: 5px;
+    }
+
+    .calculator-head p {
+      color: #cbd8e8;
+      font-size: 14px;
+    }
+
+    .calculator-body {
+      padding: 27px;
+    }
+
+    .field {
+      margin-bottom: 19px;
+    }
+
+    .field label {
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+      font-size: 14px;
+      font-weight: 800;
+      color: var(--navy);
+      margin-bottom: 8px;
+    }
+
+    .field label span {
+      color: var(--blue);
+      font-weight: 800;
+    }
+
+    .field input,
+    .field select {
+      width: 100%;
+      border: 1px solid #d5dbe4;
+      background: #fbfcfe;
+      color: var(--text);
+      padding: 13px 14px;
+      border-radius: 12px;
+      outline: none;
+      font: inherit;
+      transition: .2s ease;
+    }
+
+    .field input:focus,
+    .field select:focus {
+      border-color: var(--blue);
+      box-shadow: 0 0 0 4px rgba(40,103,199,.10);
+    }
+
+    .calculate-btn {
+      width: 100%;
+      border: 0;
+      border-radius: 13px;
+      background: var(--blue);
+      color: white;
+      padding: 14px 18px;
+      font-size: 15px;
+      font-weight: 800;
+      cursor: pointer;
+      transition: transform .2s ease, background .2s ease;
+    }
+
+    .calculate-btn:hover {
+      background: #1e56a8;
+      transform: translateY(-1px);
+    }
+
+    .result {
+      display: none;
+      margin-top: 22px;
+      padding: 20px;
+      border-radius: 16px;
+      background: var(--blue-soft);
+      border: 1px solid #d5e4fa;
+    }
+
+    .result.show {
+      display: block;
+    }
+
+    .result-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 12px;
+    }
+
+    .result-label {
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .result-category {
+      font-size: 23px;
+      color: var(--navy);
+      font-weight: 900;
+    }
+
+    .result-score {
+      font-size: 29px;
+      color: var(--blue);
+      font-weight: 900;
+    }
+
+    .result-bar {
+      height: 9px;
+      background: #d9e4f3;
+      border-radius: 99px;
+      overflow: hidden;
+      margin: 12px 0;
+    }
+
+    .result-fill {
+      height: 100%;
+      width: 0;
+      background: var(--blue);
+      border-radius: inherit;
+      transition: width .7s ease;
+    }
+
+    .result p {
+      font-size: 13px;
+      color: #596779;
+    }
+
+    .calculator-note {
+      margin-top: 13px;
+      font-size: 11px;
+      line-height: 1.55;
+      color: #7a8492;
+    }
+
+    /* Main */
+    main {
+      padding: 45px 0 75px;
+    }
+
+    .article {
+      max-width: 900px;
+      margin: auto;
+      background: white;
+      border: 1px solid var(--border);
+      border-radius: 26px;
+      padding: clamp(28px, 5vw, 62px);
+      box-shadow: 0 10px 40px rgba(16,35,63,.05);
+    }
+
+    .article-intro {
+      font-size: 18px;
+      color: #526074;
+      margin-bottom: 34px;
+    }
+
+    .article h2 {
+      color: var(--navy);
+      font-size: clamp(27px, 3vw, 35px);
+      line-height: 1.2;
+      letter-spacing: -.025em;
+      margin: 54px 0 18px;
+      padding-top: 8px;
+    }
+
+    .article h3 {
+      color: var(--navy-2);
+      font-size: 21px;
+      line-height: 1.3;
+      margin: 32px 0 12px;
+    }
+
+    .article p {
+      margin-bottom: 17px;
+    }
+
+    .article ul,
+    .article ol {
+      padding-left: 23px;
+      margin: 17px 0 23px;
+    }
+
+    .article li {
+      margin-bottom: 8px;
+      padding-left: 4px;
+    }
+
+    .article strong {
+      color: var(--navy);
+    }
+
+    /* Feature callouts */
+    .info-box {
+      margin: 28px 0;
+      padding: 23px 24px;
+      border-radius: 17px;
+      border: 1px solid #d8e5f7;
+      background: var(--blue-soft);
+      position: relative;
+    }
+
+    .info-box::before {
+      content: "✓";
+      position: absolute;
+      left: 18px;
+      top: 20px;
+      width: 25px;
+      height: 25px;
+      border-radius: 50%;
+      background: var(--blue);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-size: 13px;
+      font-weight: 900;
+    }
+
+    .info-box p {
+      padding-left: 38px;
+      margin: 0;
+    }
+
+    .warning-box {
+      background: var(--gold-soft);
+      border-color: #f0dca9;
+    }
+
+    .warning-box::before {
+      content: "!";
+      background: var(--gold);
+    }
+
+    /* Comparison table */
+    .table-wrap {
+      overflow-x: auto;
+      margin: 25px 0 30px;
+      border: 1px solid var(--border);
+      border-radius: 15px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 480px;
+    }
+
+    th {
+      background: var(--navy);
+      color: white;
+      text-align: left;
+      padding: 14px 16px;
+      font-size: 14px;
+    }
+
+    td {
+      padding: 14px 16px;
+      border-top: 1px solid var(--border);
+      font-size: 14px;
+    }
+
+    tr:nth-child(even) td {
+      background: #fafbfd;
+    }
+
+    /* Strategy cards */
+    .strategy-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin: 25px 0;
+    }
+
+    .strategy-card {
+      border: 1px solid var(--border);
+      border-radius: 17px;
+      padding: 21px;
+      background: #fff;
+    }
+
+    .icon {
+      width: 42px;
+      height: 42px;
+      display: grid;
+      place-items: center;
+      border-radius: 12px;
+      background: var(--blue-soft);
+      color: var(--blue);
+      font-size: 19px;
+      font-weight: 900;
+      margin-bottom: 13px;
+    }
+
+    .strategy-card h3 {
+      font-size: 18px;
+      margin: 0 0 7px;
+    }
+
+    .strategy-card p {
+      color: var(--muted);
+      font-size: 14px;
+      margin: 0;
+    }
+
+    /* Steps */
+    .step {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 16px;
+      margin: 23px 0;
+    }
+
+    .step-number {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: var(--navy);
+      color: white;
+      display: grid;
+      place-items: center;
+      font-weight: 900;
+    }
+
+    .step h3 {
+      margin: 0 0 5px;
+    }
+
+    .step p {
+      margin: 0;
+      color: #5e6b7d;
+    }
+
+    /* FAQ */
+    .faq {
+      border-top: 1px solid var(--border);
+    }
+
+    .faq-item {
+      padding: 21px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .faq-item h3 {
+      font-size: 18px;
+      margin: 0 0 8px;
+      color: var(--navy);
+    }
+
+    .faq-item p {
+      color: #5e6b7d;
+      margin: 0;
+    }
+
+    /* Footer */
+    footer {
+      background: var(--navy);
+      color: white;
+      padding: 35px 0;
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      gap: 25px;
+      align-items: center;
+    }
+
+    .footer-brand {
+      font-weight: 900;
+      font-size: 17px;
+    }
+
+    footer p {
+      color: #b9c6d6;
+      font-size: 13px;
+      margin-top: 4px;
+    }
+
+    .footer-link {
+      color: #dbe9ff;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      .hero-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 55px;
+      }
+
+      .strategy-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .article {
+        padding: 35px 28px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .container {
+        width: min(100% - 24px, 1160px);
+      }
+
+      .header-inner {
+        min-height: 64px;
+      }
+
+      .brand {
+        font-size: 14px;
+      }
+
+      .brand-mark {
+        width: 36px;
+        height: 36px;
+      }
+
+      .header-link {
+        padding: 8px 11px;
+        font-size: 12px;
+      }
+
+      h1 {
+        font-size: 38px;
+      }
+
+      .hero-copy {
+        font-size: 16px;
+      }
+
+      .calculator-body {
+        padding: 21px;
+      }
+
+      .article {
+        padding: 27px 20px;
+        border-radius: 19px;
+      }
+
+      .article h2 {
+        margin-top: 42px;
+      }
+
+      .step {
+        grid-template-columns: 36px 1fr;
+        gap: 12px;
+      }
+
+      .step-number {
+        width: 36px;
+        height: 36px;
+        font-size: 13px;
+      }
+
+      .footer-inner {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+    <a href="https://lsatscorecalculator.com/" class="brand" aria-label="LSAT Score Calculator home">
+      <span class="brand-mark">§</span>
+      <span>LSAT Score Calculator</span>
+    </a>
+
+    <a href="#calculator" class="header-link">Try Calculator →</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="container hero-grid">
+
+    <div>
+      <div class="eyebrow">⚖ Admissions Planning Tool</div>
+
+      <h1>Law School Acceptance Calculator: Estimate Your Admission Chances</h1>
+
+      <p class="hero-copy">
+        A <strong>law school acceptance calculator</strong> can help you turn your LSAT score
+        and undergraduate GPA into a more practical law school application strategy.
+        Instead of looking at an LSAT score or GPA in isolation, an admissions calculator
+        can help you compare your academic profile with the credentials commonly associated
+        with different law schools.
+      </p>
+
+      <div class="info-box">
+        <p>
+          Use a calculator as a <strong>planning and comparison tool—not a guarantee of admission.</strong>
+          The most useful result is usually a clearer list of schools where your profile may
+          be a reach, target, or comparatively strong fit.
+        </p>
+      </div>
+    </div>
+
+    <div class="calculator" id="calculator">
+      <div class="calculator-head">
+        <h2>Law School Profile Calculator</h2>
+        <p>Get a simple planning estimate from your LSAT and GPA.</p>
+      </div>
+
+      <div class="calculator-body">
+
+        <div class="field">
+          <label for="lsat">
+            LSAT Score
+            <span id="lsatValue">160</span>
+          </label>
+          <input
+            type="range"
+            id="lsat"
+            min="120"
+            max="180"
+            value="160"
+            oninput="document.getElementById('lsatValue').textContent=this.value"
+          >
+        </div>
+
+        <div class="field">
+          <label for="gpa">
+            Undergraduate GPA
+            <span id="gpaValue">3.50</span>
+          </label>
+          <input
+            type="range"
+            id="gpa"
+            min="0"
+            max="4"
+            step="0.01"
+            value="3.50"
+            oninput="document.getElementById('gpaValue').textContent=parseFloat(this.value).toFixed(2)"
+          >
+        </div>
+
+        <div class="field">
+          <label for="competitiveness">School competitiveness</label>
+          <select id="competitiveness">
+            <option value="high">Highly Selective</option>
+            <option value="competitive" selected>Competitive</option>
+            <option value="broad">Broad Range</option>
+          </select>
+        </div>
+
+        <button class="calculate-btn" onclick="calculateChances()">
+          Calculate My Profile
+        </button>
+
+        <div class="result" id="result">
+          <div class="result-top">
+            <div>
+              <div class="result-label">Planning category</div>
+              <div class="result-category" id="category">Target</div>
+            </div>
+
+            <div style="text-align:right">
+              <div class="result-label">Profile score</div>
+              <div class="result-score" id="score">72</div>
+            </div>
+          </div>
+
+          <div class="result-bar">
+            <div class="result-fill" id="resultFill"></div>
+          </div>
+
+          <p id="resultText"></p>
+        </div>
+
+        <p class="calculator-note">
+          This tool provides a simplified planning estimate based on the information entered.
+          It is not an official LSAC admissions model and does not predict an individual
+          school's decision.
+        </p>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<main>
+  <div class="container">
+    <article class="article">
+
+      <p class="article-intro">
+        That distinction matters because law school admission is not determined by one number.
+        LSAC explains that undergraduate GPA and LSAT scores are fundamental components of the
+        admissions process, while factors such as personal statements, recommendation letters,
+        work experience, and other application materials can provide additional context.
+      </p>
+
+      <h2>What Is a Law School Acceptance Calculator?</h2>
+
+      <p>
+        A law school acceptance calculator is an online tool that estimates how competitive an
+        applicant may be for admission based primarily on measurable credentials such as:
+      </p>
+
+      <ul>
+        <li>LSAT score</li>
+        <li>Undergraduate GPA</li>
+        <li>Law school admission statistics</li>
+        <li>School-specific LSAT and GPA ranges</li>
+        <li>In some calculators, additional application factors</li>
+      </ul>
+
+      <p>
+        The basic idea is simple: enter your academic information, and the calculator compares
+        your profile with historical or published admissions data.
+      </p>
+
+      <p>
+        For example, an applicant with a <strong>168 LSAT and 3.85 GPA</strong> may have a very
+        different admissions outlook from an applicant with a <strong>155 LSAT and 3.85 GPA</strong>,
+        even though their undergraduate GPAs are identical.
+      </p>
+
+      <p>
+        Likewise, the same applicant can have very different chances at two law schools because
+        each school has its own applicant pool, class size, median credentials, and admissions practices.
+      </p>
+
+      <h2>How Does a Law School Acceptance Calculator Work?</h2>
+
+      <p>
+        Most calculators start with the two most important quantitative components of a law school
+        application: <strong>LSAT score and undergraduate GPA</strong>.
+      </p>
+
+      <p>
+        LSAC states that LSAT scores range from 120 to 180. It also notes that undergraduate GPA is
+        closely examined by law schools and that some schools use an admission index combining LSAT
+        and GPA. However, schools do not all use the same formula.
+      </p>
+
+      <p>A typical calculator follows a process similar to this:</p>
+
+      <ol>
+        <li><strong>Enter your LSAT score.</strong></li>
+        <li><strong>Enter your undergraduate or LSAC GPA.</strong></li>
+        <li><strong>Compare your numbers with law school data.</strong></li>
+        <li><strong>Evaluate how your profile compares with a school's typical applicant pool.</strong></li>
+        <li><strong>Group schools into categories such as reach, target, or likely.</strong></li>
+        <li><strong>Use those results to build a balanced application list.</strong></li>
+      </ol>
+
+      <div class="info-box">
+        <p>
+          The underlying comparison is more useful than a single percentage because it shows
+          <strong>where your credentials fit.</strong>
+        </p>
+      </div>
+
+      <h3>Why LSAT and GPA Matter So Much</h3>
+
+      <p>
+        LSAC's research has consistently found that the LSAT is a strong predictor of first-year
+        law school performance and that combining LSAT performance with undergraduate GPA provides
+        stronger predictive information than either measure alone.
+      </p>
+
+      <p>
+        That does not mean admissions committees ignore everything else.
+      </p>
+
+      <p>
+        A strong LSAT and GPA can make an applicant academically competitive, but the final decision
+        can also involve the personal statement, recommendation letters, work history, academic
+        circumstances, application timing, and other elements of the file.
+      </p>
+
+      <h2>What Should You Enter Into a Law School Acceptance Calculator?</h2>
+
+      <p>
+        For the most meaningful estimate, use the most accurate information available.
+      </p>
+
+      <h3>1. Your LSAT Score</h3>
+
+      <p>
+        Enter your official LSAT score rather than an optimistic practice-test estimate when possible.
+      </p>
+
+      <p>
+        The LSAT is scored on a 120–180 scale. Because relatively small score differences can affect
+        how an applicant compares with a school's applicant pool, use your actual score when evaluating
+        your application strategy.
+      </p>
+
+      <p>If you are still preparing for the LSAT, you can also run several scenarios.</p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Scenario</th>
+              <th>LSAT</th>
+              <th>GPA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Current score</td>
+              <td>158</td>
+              <td>3.70</td>
+            </tr>
+            <tr>
+              <td>Possible improvement</td>
+              <td>162</td>
+              <td>3.70</td>
+            </tr>
+            <tr>
+              <td>Strong improvement</td>
+              <td>166</td>
+              <td>3.70</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        This can show whether improving your LSAT could meaningfully change the schools you should consider.
+      </p>
+
+      <h3>2. Your Undergraduate GPA</h3>
+
+      <p>
+        Use the GPA requested by the calculator and, when applicable, the GPA reported through LSAC's
+        credential process rather than automatically assuming your university's displayed GPA is the
+        same figure.
+      </p>
+
+      <p>
+        LSAC emphasizes that law schools examine undergraduate academic performance, including course
+        selection and academic trends. A strong improvement later in college can provide useful context
+        for an applicant whose earlier grades were weaker.
+      </p>
+
+      <h3>3. The Law Schools You Are Considering</h3>
+
+      <p>
+        A useful calculator should not encourage you to think about your admission chances in the abstract.
+      </p>
+
+      <div class="info-box">
+        <p>
+          The real question is: <strong>“How competitive is my profile for this particular law school?”</strong>
+        </p>
+      </div>
+
+      <p>
+        A 165 LSAT may be highly competitive at one school while being below the median at another.
+        That is why school-specific data is more useful than a universal acceptance percentage.
+      </p>
+
+      <h2>How to Interpret Your Results</h2>
+
+      <p>
+        A calculator result should help you categorize your application list rather than convince you
+        that admission is certain.
+      </p>
+
+      <div class="strategy-grid">
+
+        <div class="strategy-card">
+          <div class="icon">↗</div>
+          <h3>Reach Schools</h3>
+          <p>
+            Your current academic profile is less competitive than the school's typical admitted
+            applicants. Admission is possible, but uncertainty is higher.
+          </p>
+        </div>
+
+        <div class="strategy-card">
+          <div class="icon">◎</div>
+          <h3>Target Schools</h3>
+          <p>
+            Your LSAT and GPA are reasonably competitive compared with the school's reported profile,
+            but admission is never guaranteed.
+          </p>
+        </div>
+
+        <div class="strategy-card">
+          <div class="icon">✓</div>
+          <h3>Strong-Fit Schools</h3>
+          <p>
+            Your academic credentials compare favorably with the school's typical profile, giving you
+            a comparatively strong numerical position.
+          </p>
+        </div>
+
+      </div>
+
+      <h3>Why You Should Apply to a Mix</h3>
+
+      <p>A balanced application list can include:</p>
+
+      <ul>
+        <li>Several reach schools</li>
+        <li>Several target schools</li>
+        <li>A few schools where your academic profile is comparatively strong</li>
+      </ul>
+
+      <p>
+        This approach gives you opportunities at ambitious programs while reducing the risk of relying
+        entirely on schools where your numbers are below the typical range.
+      </p>
+
+      <h2>LSAT Score vs. GPA: Which Matters More?</h2>
+
+      <p>
+        There is no universal rule that one number completely determines your admission outcome.
+      </p>
+
+      <p>
+        However, LSAC's research gives the LSAT significant predictive weight. Its research has found
+        that LSAT scores are stronger predictors of first-year law school performance than undergraduate
+        GPA, while the combination of LSAT and GPA provides the strongest prediction among those quantitative measures.
+      </p>
+
+      <p>
+        This is one reason an applicant with a relatively modest GPA may still have a meaningful
+        opportunity to strengthen their profile through a higher LSAT score.
+      </p>
+
+      <p>
+        The reverse can also happen: an applicant with an excellent GPA but a less competitive LSAT
+        may need to think carefully about which schools best match the overall profile.
+      </p>
+
+      <h2>What Is a Splitter?</h2>
+
+      <p>
+        A <strong>splitter</strong> is an applicant whose LSAT and GPA are significantly different
+        in terms of competitiveness.
+      </p>
+
+      <div class="strategy-grid">
+
+        <div class="strategy-card">
+          <div class="icon">LS</div>
+          <h3>Traditional Splitter</h3>
+          <p>
+            High LSAT combined with a comparatively lower GPA.
+          </p>
+        </div>
+
+        <div class="strategy-card">
+          <div class="icon">GP</div>
+          <h3>Reverse Splitter</h3>
+          <p>
+            High GPA combined with a comparatively lower LSAT.
+          </p>
+        </div>
+
+        <div class="strategy-card">
+          <div class="icon">+</div>
+          <h3>Strategic Value</h3>
+          <p>
+            Identifying the pattern can help you research schools where your stronger credential may carry more weight.
+          </p>
+        </div>
+
+      </div>
+
+      <p>
+        The value of identifying your profile as a splitter is strategic. It can help you investigate
+        schools where one of your two primary academic numbers may compensate for the other.
+      </p>
+
+      <p>
+        However, being a splitter does not automatically produce a predictable admissions result.
+        School-specific data and the rest of your application still matter.
+      </p>
+
+      <h2>Why a Calculator Cannot Guarantee Admission</h2>
+
+      <p>
+        No responsible law school acceptance calculator should promise that you will be admitted.
+      </p>
+
+      <p>
+        Admissions offices evaluate applications individually, and numerical credentials are only part
+        of the complete file.
+      </p>
+
+      <p>LSAC lists several components that can affect an application, including:</p>
+
+      <ul>
+        <li>LSAT score</li>
+        <li>Undergraduate academic record</li>
+        <li>Letters of recommendation</li>
+        <li>Personal statement</li>
+        <li>Work experience</li>
+        <li>Application materials</li>
+        <li>School-specific requirements</li>
+      </ul>
+
+      <p>
+        LSAC also notes that law schools use a holistic admissions process and can consider qualities
+        and experiences beyond standardized scores and grades.
+      </p>
+
+      <div class="info-box warning-box">
+        <p>
+          Historical admission data describes what happened to previous applicants. It cannot perfectly
+          predict what an admissions committee will decide about a future applicant.
+        </p>
+      </div>
+
+      <h2>How to Use a Law School Acceptance Calculator Effectively</h2>
+
+      <p>
+        The calculator becomes much more useful when you treat it as the first step in a broader research process.
+      </p>
+
+      <div class="step">
+        <div class="step-number">1</div>
+        <div>
+          <h3>Start With Your Actual Numbers</h3>
+          <p>
+            Enter your current LSAT score and GPA. Do not inflate your GPA or use a hoped-for LSAT score
+            when making your primary application plan.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">2</div>
+        <div>
+          <h3>Identify Your Strongest Schools</h3>
+          <p>
+            Look at schools where your academic credentials compare favorably with the published data.
+            These can form the foundation of your list.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">3</div>
+        <div>
+          <h3>Add Reasonable Targets</h3>
+          <p>
+            Find schools where your numbers are competitive but not overwhelmingly above the school's
+            typical profile. These schools can provide a useful middle ground.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">4</div>
+        <div>
+          <h3>Add Reach Schools</h3>
+          <p>
+            If you have ambitious choices, include them—but understand the additional uncertainty.
+            A reach school should be part of a balanced list rather than the entire strategy.
+          </p>
+        </div>
+      </div>
+
+      <div class="step">
+        <div class="step-number">5</div>
+        <div>
+          <h3>Research Beyond LSAT and GPA</h3>
+          <p>
+            Once you identify potential schools, investigate tuition, scholarships, employment outcomes,
+            location, programs, bar passage information, career support, student debt, class size, and
+            your preferred legal market.
+          </p>
+        </div>
+      </div>
+
+      <h2>What Makes a Good Law School Acceptance Calculator?</h2>
+
+      <p>
+        A useful calculator should do more than output an unexplained percentage.
+      </p>
+
+      <ul>
+        <li>Uses clearly explained inputs</li>
+        <li>Separates LSAT and GPA</li>
+        <li>Provides school-specific comparisons</li>
+        <li>Uses recent admissions information when available</li>
+        <li>Explains what the result means</li>
+        <li>Avoids presenting estimates as guarantees</li>
+        <li>Helps you build a realistic school list</li>
+      </ul>
+
+      <p>
+        Transparency matters. If a tool gives you a <strong>72% chance of admission</strong>, for example,
+        you should be able to understand what that number represents and what data was used to generate it.
+      </p>
+
+      <p>
+        A percentage without methodology can create false confidence.
+      </p>
+
+      <h2>Law School Acceptance Calculator vs. Law School Acceptance Rate</h2>
+
+      <p>
+        These terms are related but they answer different questions.
+      </p>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>Term</th>
+              <th>What It Tells You</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Law school acceptance rate</strong></td>
+              <td>The percentage of applicants a particular school admitted during a particular cycle.</td>
+            </tr>
+            <tr>
+              <td><strong>Law school acceptance calculator</strong></td>
+              <td>Attempts to estimate how competitive your individual profile may be at one or more schools.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <p>
+        For example, knowing that a school admitted a certain percentage of applicants does not tell you
+        whether your 160 LSAT and 3.75 GPA make you a strong candidate.
+      </p>
+
+      <p>
+        The calculator's purpose is to put your numbers into context.
+      </p>
+
+      <h2>Can You Improve Your Estimated Chances?</h2>
+
+      <p>
+        Yes. In many cases, the most controllable part of the academic profile is the LSAT score.
+      </p>
+
+      <p>
+        If your GPA is already established, improving your LSAT can change how your credentials compare
+        with different schools.
+      </p>
+
+      <p>For example, an applicant could use a calculator to model:</p>
+
+      <div class="info-box">
+        <p>
+          <strong>Current profile:</strong> 158 LSAT + 3.70 GPA<br>
+          <strong>Scenario A:</strong> 162 LSAT + 3.70 GPA<br>
+          <strong>Scenario B:</strong> 165 LSAT + 3.70 GPA
+        </p>
+      </div>
+
+      <p>
+        The point is not to chase a particular calculator percentage. The point is to determine whether
+        additional LSAT preparation could expand your realistic school options.
+      </p>
+
+      <p>
+        Other improvements can come from strengthening the application itself. A thoughtful personal
+        statement, strong recommendations, relevant experience, and careful school selection can add
+        context that a numerical calculator cannot capture.
+      </p>
+
+      <h2>Use the Calculator Alongside Official Law School Data</h2>
+
+      <p>
+        An online calculator should be a starting point, not your only source of information.
+      </p>
+
+      <p>
+        LSAC provides resources for comparing law schools and recommends researching factors including
+        admissions statistics, costs, employment outcomes, and career support. Its LawHub resources also
+        provide school-specific information to help applicants evaluate their options.
+      </p>
+
+      <p>For important decisions, cross-check calculator results against:</p>
+
+      <ul>
+        <li>LSAC resources</li>
+        <li>Individual law school admissions pages</li>
+        <li>Official law school disclosures</li>
+        <li>Current admissions information</li>
+        <li>Financial aid and scholarship information</li>
+      </ul>
+
+      <p>
+        This is especially important because admissions data can change from one cycle to another.
+      </p>
+
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq">
+
+        <div class="faq-item">
+          <h3>What is the best law school acceptance calculator?</h3>
+          <p>
+            The best calculator is one that clearly explains how it estimates competitiveness, uses relevant
+            admissions data, and lets you compare your LSAT and GPA with individual law schools. No calculator
+            can guarantee admission.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>What LSAT score do I need for law school?</h3>
+          <p>
+            There is no single LSAT score that guarantees admission to every law school. Each school has
+            its own applicant pool and admissions profile. Your target score should therefore depend on
+            the schools you want to attend.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Does GPA matter for law school admission?</h3>
+          <p>
+            Yes. LSAC identifies undergraduate GPA as a fundamental component of law school admissions,
+            and schools may also examine course difficulty and academic trends.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Can a high LSAT compensate for a low GPA?</h3>
+          <p>
+            It can strengthen an applicant's academic profile, but there is no universal formula for how
+            one credential compensates for another. Schools differ in how they evaluate applications,
+            so applicants with an uneven LSAT/GPA profile should examine school-specific data.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Are law school acceptance calculator results accurate?</h3>
+          <p>
+            They can be useful estimates, but they are not guarantees. A calculator generally works from
+            measurable data and may not fully account for the personal statement, recommendations, work
+            experience, application timing, institutional priorities, or other elements of holistic review.
+          </p>
+        </div>
+
+        <div class="faq-item">
+          <h3>Should I apply to a law school if the calculator says my chances are low?</h3>
+          <p>
+            Potentially. A low estimate does not necessarily mean admission is impossible. If the school
+            is important to you and the application cost is reasonable, you may still decide to apply while
+            maintaining a balanced list of schools with different levels of competitiveness.
+          </p>
+        </div>
+
+      </div>
+
+      <h2>Final Takeaway</h2>
+
+      <p>
+        A <strong>law school acceptance calculator</strong> is most valuable when it helps you make better
+        decisions, not when it gives you a number to obsess over.
+      </p>
+
+      <p>
+        Start with your actual LSAT and GPA. Compare them with individual schools. Identify reaches, targets,
+        and stronger-fit options. Then look beyond the numbers at cost, scholarships, employment outcomes,
+        location, programs, and career goals.
+      </p>
+
+      <p>
+        Your LSAT and GPA provide an important quantitative foundation, but your application is more than
+        two numbers. The smartest admissions strategy combines data-driven comparison with careful research
+        and an honest assessment of the complete application.
+      </p>
+
+      <div class="info-box">
+        <p>
+          For applicants researching their options, the
+          <a href="https://lsatscorecalculator.com/" style="color:#2867c7;font-weight:800;">
+            LSAT Score Calculator
+          </a>
+          can serve as one starting point for evaluating scores and law school fit.
+        </p>
+      </div>
+
+    </article>
+  </div>
+</main>
+
+<footer>
+  <div class="container footer-inner">
+    <div>
+      <div class="footer-brand">LSAT Score Calculator</div>
+      <p>Tools and resources for smarter LSAT and law school planning.</p>
+    </div>
+
+    <a class="footer-link" href="https://lsatscorecalculator.com/">
+      Visit LSATScoreCalculator.com →
+    </a>
+  </div>
+</footer>
+
+<script>
+  function calculateChances() {
+    const lsat = Number(document.getElementById("lsat").value);
+    const gpa = Number(document.getElementById("gpa").value);
+    const competitiveness = document.getElementById("competitiveness").value;
+
+    /*
+      This is intentionally presented as a planning score rather than
+      an actual probability of admission.
+
+      The calculator combines normalized LSAT and GPA values with a
+      broad school-competitiveness adjustment. It should not be treated
+      as an official LSAC model or school-specific admissions prediction.
+    */
+
+    const lsatScore = ((lsat - 120) / 60) * 100;
+    const gpaScore = (gpa / 4) * 100;
+
+    let adjustment = 0;
+
+    if (competitiveness === "high") {
+      adjustment = -12;
+    } else if (competitiveness === "broad") {
+      adjustment = 10;
+    }
+
+    let score = (lsatScore * 0.65) + (gpaScore * 0.35) + adjustment;
+
+    score = Math.max(5, Math.min(95, Math.round(score)));
+
+    let category = "";
+    let message = "";
+
+    if (score >= 78) {
+      category = "Strong Fit";
+      message =
+        "Your combined LSAT and GPA profile looks comparatively strong for the broad school category selected. Check individual school data before making application decisions.";
+    } else if (score >= 63) {
+      category = "Target";
+      message =
+        "Your numbers fall into a generally competitive planning range. Treat these schools as targets only after comparing your profile with each school's current admissions data.";
+    } else if (score >= 45) {
+      category = "Reach";
+      message =
+        "Your current numbers suggest more uncertainty for the selected school category. A balanced application list can help manage that uncertainty.";
+    } else {
+      category = "High Reach";
+      message =
+        "Your current quantitative profile appears less competitive for the selected school category. Consider researching additional schools and ways to strengthen your LSAT or overall application.";
+    }
+
+    document.getElementById("category").textContent = category;
+    document.getElementById("score").textContent = score;
+    document.getElementById("resultText").textContent = message;
+    document.getElementById("resultFill").style.width = score + "%";
+
+    document.getElementById("result").classList.add("show");
+  }
+</script>
+
+</body>
+</html>
+
